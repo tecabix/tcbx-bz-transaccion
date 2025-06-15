@@ -22,36 +22,80 @@ import com.tecabix.res.b.RSB026;
 import com.tecabix.sv.rq.RQSV032;
 
 /**
-*
-* @author Ramirez Urrutia Angel Abinadi
-*/
+ *
+ * @author Ramirez Urrutia Angel Abinadi
+ */
 public class Transaccion003BZ {
 
-	private PersonaFisicaRepository personaFisicaRepository;
-	
-	private CuentaRepository cuentaRepository;
-	
-	private TransaccionSolicitudRepository transaccionSolicitudRepository;
-	
-	private Catalogo monoTrx;
-	
-	private Catalogo activo;
-	
-	private String NO_SE_ENCONTRO_LA_CUENTA = "No se encontro la cuenta.";
-	
-	private String NO_SE_ENCONTRO_PERSONA_FISICA = "No se encontro a la persona fisica.";
-	
-	
-    public Transaccion003BZ(Transaccion003BzDTO dto) {
-		this.personaFisicaRepository = dto.getPersonaFisicaRepository();
-		this.cuentaRepository = dto.getCuentaRepository();
-		this.transaccionSolicitudRepository = dto.getTransaccionSolicitudRepository();
-		this.monoTrx = dto.getMonoTrx();
-		this.activo = dto.getActivo();
-	}
+    /**
+     * Repositorio para acceder a la entidad PersonaFisica.
+     */
+    private final PersonaFisicaRepository personaFisicaRepository;
 
+    /**
+     * Repositorio para acceder a la entidad Cuenta.
+     */
+    private final CuentaRepository cuentaRepository;
 
-	public ResponseEntity<RSB026> crearSolicitud(final RQSV032 rqsv032) {
+    /**
+     * Repositorio para acceder a la entidad TransaccionSolicitud.
+     */
+    private final TransaccionSolicitudRepository transaccionSolicitudRepository;
+
+    /**
+     * Catálogo que representa la monoTransaccion.
+     */
+    private final Catalogo monoTrx;
+
+    /**
+     * Estado "activo" obtenido desde el catálogo.
+     */
+    private final Catalogo activo;
+
+    /**
+     * Cuenta origen no existe.
+     */
+    private static final String NO_SE_ENCONTRO_LA_CUENTA;
+
+    static {
+        NO_SE_ENCONTRO_LA_CUENTA = "No se encontro la cuenta.";
+        NO_SE_ENCONTRO_PERSONA_FISICA = "No se encontro a la persona fisica.";
+    }
+    /**
+     * Persona fisica no encontrada.
+     */
+    private static final String NO_SE_ENCONTRO_PERSONA_FISICA;
+
+    /**
+     * Constructor de la clase {@code Transaccion003BZ}.
+     * <p>
+     * Inicializa una nueva instancia utilizando los datos proporcionados
+     * en el DTO {@code Transaccion003BzDTO}.
+     * Este constructor asigna los repositorios y catálogos necesarios para el
+     * procesamiento de la transacción.
+     *
+     * @param dto el objeto {@code Transaccion003BzDTO} que contiene las
+     *            dependencias necesarias, incluyendo los repositorios de
+     *            persona física, cuenta, solicitud de transacción, así como
+     *            los catálogos de monoTransacción y estado activo.
+     */
+    public Transaccion003BZ(final Transaccion003BzDTO dto) {
+        this.personaFisicaRepository = dto.getPersonaFisicaRepository();
+        this.cuentaRepository = dto.getCuentaRepository();
+        this.transaccionSolicitudRepository = dto
+            .getTransaccionSolicitudRepository();
+        this.monoTrx = dto.getMonoTrx();
+        this.activo = dto.getActivo();
+    }
+
+    /**
+     * Método para crear solicitud de transacción.
+     *
+     * @param rqsv032 datos de solicitud.
+     * @return {@link ResponseEntity} con un objeto {@link RQSV032} que contiene
+     *         información para crear solicitud.
+     */
+    public ResponseEntity<RSB026> crearSolicitud(final RQSV032 rqsv032) {
 
         RSB026 rsb026 = rqsv032.getRsb026();
         Sesion sesion = rqsv032.getSesion();
@@ -81,10 +125,13 @@ public class Transaccion003BZ {
         trxSolicitud.setCuenta(cuenta.getId());
         trxSolicitud.setVencimiento(LocalDate.now().plusDays(1));
         trxSolicitud.setTipo(monoTrx);
-        String apellidoPaterno = personaFisica.getApellidoPaterno();
-        trxSolicitud.setDescripcion(apellidoPaterno.toUpperCase() + " "
-                + personaFisica.getApellidoMaterno().toUpperCase() + " "
-                + personaFisica.getNombre().toUpperCase());
+        String apellidoPaterno;
+        apellidoPaterno = personaFisica.getApellidoPaterno().toUpperCase();
+        String apellidoMaterno;
+        apellidoMaterno = personaFisica.getApellidoMaterno().toUpperCase();
+        String nombre = personaFisica.getNombre().toUpperCase();
+        trxSolicitud.setDescripcion(apellidoPaterno + " "
+        + apellidoMaterno + " " + nombre);
         trxSolicitud.setEstatus(activo);
         trxSolicitud.setIdUsuarioModificado(idUsr);
         trxSolicitud.setFechaModificado(LocalDateTime.now());

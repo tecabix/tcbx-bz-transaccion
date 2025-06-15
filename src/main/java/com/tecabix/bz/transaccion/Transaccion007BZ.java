@@ -18,30 +18,69 @@ import com.tecabix.res.b.RSB025;
 import com.tecabix.sv.rq.RQSV036;
 
 /**
-*
-* @author Ramirez Urrutia Angel Abinadi
-*/
+ *
+ * @author Ramirez Urrutia Angel Abinadi
+ */
 public class Transaccion007BZ {
 
-	private CuentaRepository cuentaRepository;
-	
-	private TransaccionRepository transaccionRepository;
-	
-	private PersonaFisicaRepository personaFisicaRepository;
-	
-	private String NO_SE_ENCONTRO_LA_CUENTA = "No se encontro la cuenta.";
-	
-	private String NO_SE_ENCONTRO_LA_TRANSACCION = "No se encontró la transacción.";
-	
-	private String NO_SE_ENCONTRO_PERSONA_FISICA = "No se encontro a la persona fisica.";
+    /**
+     * Repositorio para acceder a la entidad Cuenta.
+     */
+    private final CuentaRepository cuentaRepository;
 
-    public Transaccion007BZ(Transaccion007BzDTO dto) {
-		this.cuentaRepository = dto.getCuentaRepository();
-		this.transaccionRepository = dto.getTransaccionRepository();
-		this.personaFisicaRepository = dto.getPersonaFisicaRepository();
-	}
+    /**
+     * Repositorio para acceder a la entidad Transaccion.
+     */
+    private final TransaccionRepository transaccionRepository;
 
-	public ResponseEntity<RSB025> obtener(final RQSV036 rqsv036) {
+    /**
+     * Repositorio para acceder a la entidad PersonaFisica.
+     */
+    private final PersonaFisicaRepository personaFisicaRepository;
+
+    /**
+     * Cuenta origen no existe.
+     */
+    private static final String NO_SE_ENCONTRO_LA_CUENTA;
+
+    /**
+     * Transacción no encontrada.
+     */
+    private static final String NO_SE_ENCONTRO_LA_TRANSACCION;
+
+    /**
+     * Persona fisica no encontrada.
+     */
+    private static final String NO_SE_ENCONTRO_PERSONA_FISICA;
+
+    static {
+        NO_SE_ENCONTRO_LA_CUENTA = "No se encontro la cuenta.";
+        NO_SE_ENCONTRO_LA_TRANSACCION = "No se encontró la transacción.";
+        NO_SE_ENCONTRO_PERSONA_FISICA = "No se encontro a la persona fisica.";
+    }
+
+    /**
+     * Constructor de la clase {@code Transaccion007BZ}.
+     * Inicializa los repositorios necesarios utilizando un objeto
+     * {@code Transaccion007BzDTO}.
+     *
+     * @param dto el objeto de transferencia de datos que contiene las
+     *            dependencias necesarias para la ejecución de la transacción.
+     */
+    public Transaccion007BZ(final Transaccion007BzDTO dto) {
+        this.cuentaRepository = dto.getCuentaRepository();
+        this.transaccionRepository = dto.getTransaccionRepository();
+        this.personaFisicaRepository = dto.getPersonaFisicaRepository();
+    }
+
+    /**
+     * Método para obtener la transacción.
+     *
+     * @param rqsv036 datos de consulta.
+     * @return {@link ResponseEntity} con un objeto {@link RSB025} que contiene
+     *         información para obtener la transacción.
+     */
+    public ResponseEntity<RSB025> obtener(final RQSV036 rqsv036) {
 
         RSB025 rsb025 = rqsv036.getRsb025();
         Sesion sesion = rqsv036.getSesion();

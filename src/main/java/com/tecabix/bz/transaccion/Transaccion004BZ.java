@@ -11,20 +11,43 @@ import com.tecabix.res.b.RSB027;
 import com.tecabix.sv.rq.RQSV033;
 
 /**
-*
-* @author Ramirez Urrutia Angel Abinadi
-*/
+ *
+ * @author Ramirez Urrutia Angel Abinadi
+ */
 public class Transaccion004BZ {
 
-	private TransaccionSolicitudRepository transaccionSolicitudRepository;
-	
-	private String NO_SE_ENCONTRO_SOLICITUD_DE_TRANSACCION = "No se encontró la solicitud de transacción.";
+    /**
+     * Repositorio para acceder a la entidad TransaccionSolicitud.
+     */
+    private final TransaccionSolicitudRepository transaccionSolicitudRepository;
 
-    public Transaccion004BZ(TransaccionSolicitudRepository transaccionSolicitudRepository) {
-		this.transaccionSolicitudRepository = transaccionSolicitudRepository;
-	}
+    /**
+     * Solicitud de transacción no existe.
+     */
+    private static final String NO_SE_ENCONTRO_SOLICITUD_DE_TRANSACCION;
 
-	public ResponseEntity<RSB027> obtenerSolicitud(final RQSV033 rqsv033) {
+    static {
+        NO_SE_ENCONTRO_SOLICITUD_DE_TRANSACCION = "No se encontró la solicitud de transacción.";
+    }
+
+    /**
+     * Constructor de la clase {@code Transaccion004BZ}.
+     *
+     * @param repository el repositorio utilizado para
+     *        acceder a las solicitudes de transacción.
+     */
+    public Transaccion004BZ(final TransaccionSolicitudRepository repository) {
+        this.transaccionSolicitudRepository = repository;
+    }
+
+    /**
+     * Método para obtener una solicitud de transacción.
+     *
+     * @param rqsv033 datos de consulta.
+     * @return {@link ResponseEntity} con un objeto {@link RSB027} que contiene
+     *         información para obtener la solicitud.
+     */
+    public ResponseEntity<RSB027> obtenerSolicitud(final RQSV033 rqsv033) {
 
         RSB027 rsb027 = rqsv033.getRsb027();
         UUID clave = rsb027.getClave();

@@ -16,28 +16,68 @@ import com.tecabix.res.b.RSB024;
 import com.tecabix.sv.rq.RQSV031;
 
 /**
-*
-* @author Ramirez Urrutia Angel Abinadi
-*/
+ *
+ * @author Ramirez Urrutia Angel Abinadi
+ */
 public class Transaccion002BZ {
 
-	private TransaccionRepository transaccionRepository;
-	
-	private PersonaFisicaRepository personaFisicaRepository;
-	
-	private Catalogo activo;
-	
-	private String NO_SE_ENCONTRO_LA_TRANSACCION = "No se encontró la transacción.";
-	
-	private String NO_SE_ENCONTRO_PERSONA_FISICA = "No se encontro a la persona fisica.";
+    /**
+     * Repositorio para acceder a la entidad Transaccion.
+     */
+    private final TransaccionRepository transaccionRepository;
 
-    public Transaccion002BZ(Transaccion002BzDTO dto) {
-    	this.transaccionRepository = dto.getTransaccionRepository();
-		this.personaFisicaRepository = dto.getPersonaFisicaRepository();
-		this.activo = dto.getActivo();
-	}
+    /**
+     * Repositorio para acceder a la entidad PersonaFisica.
+     */
+    private final PersonaFisicaRepository personaFisicaRepository;
 
-	public ResponseEntity<RSB024> obtenerEstatus(final RQSV031 rqsv031) {
+    /**
+     * Estado "activo" obtenido desde el catálogo.
+     */
+    private final Catalogo activo;
+
+    /**
+     * Transacción no encontrada.
+     */
+    private static final String NO_SE_ENCONTRO_LA_TRANSACCION;
+
+    static {
+        NO_SE_ENCONTRO_LA_TRANSACCION = "No se encontró la transacción.";
+        NO_SE_ENCONTRO_PERSONA_FISICA = "No se encontro a la persona fisica.";
+    }
+
+    /**
+     * Persona fisica no encontrada.
+     */
+    private static final String NO_SE_ENCONTRO_PERSONA_FISICA;
+
+    /**
+     * Constructor de la clase {@code Transaccion002BZ}.
+     * <p>
+     * Inicializa una nueva instancia utilizando los datos proporcionados en el
+     * DTO {@code Transaccion002BzDTO}.
+     * Este constructor extrae los repositorios y el estado del objeto activo
+     * desde el DTO.
+     *
+     * @param dto el objeto {@code Transaccion002BzDTO} que contiene los datos
+     *            necesarios para inicializar la transacción, incluyendo los
+     *            repositorios de transacciones y personas físicas, así como el
+     *            estado del objeto activo.
+     */
+    public Transaccion002BZ(final Transaccion002BzDTO dto) {
+        this.transaccionRepository = dto.getTransaccionRepository();
+        this.personaFisicaRepository = dto.getPersonaFisicaRepository();
+        this.activo = dto.getActivo();
+    }
+
+    /**
+     * Método para obtener estatus de transacción.
+     *
+     * @param rqsv031 datos para estatus.
+     * @return {@link ResponseEntity} con un objeto {@link RSB024} que contiene
+     *         información para crear préstamo.
+     */
+    public ResponseEntity<RSB024> obtenerEstatus(final RQSV031 rqsv031) {
 
         RSB024 rsb024 = rqsv031.getRsb024();
         UUID clave = rqsv031.getClave();
