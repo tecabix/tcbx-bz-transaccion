@@ -5,38 +5,87 @@ import com.tecabix.db.repository.PersonaFisicaRepository;
 import com.tecabix.db.repository.TransaccionRepository;
 
 /**
-*
-* @author Ramirez Urrutia Angel Abinadi
-*/
+ *
+ * @author Ramirez Urrutia Angel Abinadi
+ */
 public class Transaccion007BzDTO {
 
-	private CuentaRepository cuentaRepository;
-	
-	private TransaccionRepository transaccionRepository;
-	
-	private PersonaFisicaRepository personaFisicaRepository;
+    /**
+     * Repositorio para acceder a la entidad Cuenta.
+     */
+    private CuentaRepository cuentaRepository;
 
-	public CuentaRepository getCuentaRepository() {
-		return cuentaRepository;
-	}
+    /**
+     * Repositorio para acceder a la entidad Transaccion.
+     */
+    private TransaccionRepository transaccionRepository;
 
-	public void setCuentaRepository(CuentaRepository cuentaRepository) {
-		this.cuentaRepository = cuentaRepository;
-	}
+    /**
+     * Repositorio para acceder a la entidad PersonaFisica.
+     */
+    private PersonaFisicaRepository personaFisicaRepository;
 
-	public TransaccionRepository getTransaccionRepository() {
-		return transaccionRepository;
-	}
+    /**
+     * Obtiene el repositorio de cuentas.
+     *
+     * @return el objeto {@link CuentaRepository} utilizado para acceder
+     *         a los datos de cuentas.
+     */
+    public CuentaRepository getCuentaRepository() {
+        return cuentaRepository;
+    }
 
-	public void setTransaccionRepository(TransaccionRepository transaccionRepository) {
-		this.transaccionRepository = transaccionRepository;
-	}
+    /**
+     * Establece el repositorio de cuentas.
+     *
+     * @param repository el objeto {@link CuentaRepository} que se
+     *        utilizará para acceder a los datos de cuentas.
+     */
+    public void setCuentaRepository(final CuentaRepository repository) {
+        this.cuentaRepository = repository;
+    }
 
-	public PersonaFisicaRepository getPersonaFisicaRepository() {
-		return personaFisicaRepository;
-	}
+    /**
+     * Obtiene el repositorio de transacciones.
+     *
+     * @return el objeto {@link TransaccionRepository} utilizado para acceder
+     *         a los datos de transacciones.
+     */
+    public TransaccionRepository getTransaccionRepository() {
+        return transaccionRepository;
+    }
 
-	public void setPersonaFisicaRepository(PersonaFisicaRepository personaFisicaRepository) {
-		this.personaFisicaRepository = personaFisicaRepository;
-	}
+    /**
+     * Establece el repositorio de transacciones.
+     *
+     * @param repository el objeto {@link TransaccionRepository} que
+     *        se utilizará para acceder a los datos de transacciones.
+     */
+    public void setTransaccionRepository(
+        final TransaccionRepository repository) {
+
+        this.transaccionRepository = repository;
+    }
+
+    /**
+     * Obtiene el repositorio de personas físicas.
+     *
+     * @return el objeto {@link PersonaFisicaRepository} utilizado para acceder
+     *         a los datos de personas físicas.
+     */
+    public PersonaFisicaRepository getPersonaFisicaRepository() {
+        return personaFisicaRepository;
+    }
+
+    /**
+     * Establece el repositorio de personas físicas.
+     *
+     * @param repository el objeto {@link PersonaFisicaRepository}
+     *        que se utilizará para acceder a los datos de personas físicas.
+     */
+    public void setPersonaFisicaRepository(
+        final PersonaFisicaRepository repository) {
+
+        this.personaFisicaRepository = repository;
+    }
 }

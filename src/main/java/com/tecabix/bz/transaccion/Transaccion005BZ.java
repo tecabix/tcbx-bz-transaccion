@@ -21,34 +21,85 @@ import com.tecabix.sv.rq.RQSV030;
 import com.tecabix.sv.rq.RQSV034;
 
 /**
-*
-* @author Ramirez Urrutia Angel Abinadi
-*/
+ *
+ * @author Ramirez Urrutia Angel Abinadi
+ */
 public class Transaccion005BZ {
 
-    private TransaccionSolicitudRepository transaccionSolicitudRepository;
-    
-    private CuentaRepository cuentaRepository;
-	private TransaccionRepository transaccionRepository;
-	private Catalogo transferencia;
-	private Catalogo pendiente;
-	private Catalogo monoTrx;
-	private Catalogo eliminado;
+    /**
+     * Repositorio para acceder a la entidad TransaccionSolicitud.
+     */
+    private final TransaccionSolicitudRepository transaccionSolicitudRepository;
 
-    private String NO_SE_ENCONTRO_SOLICITUD_DE_TRANSACCION = "No se encontró la solicitud de transacción.";
+    /**
+     * Repositorio para acceder a la entidad Cuenta.
+     */
+    private final CuentaRepository cuentaRepository;
 
-    public Transaccion005BZ(Transaccion005BzDTO dto) {
-		this.transaccionSolicitudRepository = dto.getTransaccionSolicitudRepository();
-		this.cuentaRepository = dto.getCuentaRepository();
-		this.transaccionRepository = dto.getTransaccionRepository();
-		this.transferencia = dto.getTransferencia();
-		this.pendiente = dto.getPendiente();
-		this.monoTrx = dto.getMonoTrx();
-		this.eliminado = dto.getEliminado();
-	}
+    /**
+     * Repositorio para acceder a la entidad Transaccion.
+     */
+    private final TransaccionRepository transaccionRepository;
 
-	public ResponseEntity<RSB023> ejecutarTransaccionSolicitud(
-            final RQSV034 rqsv034) {
+    /**
+     * Catálogo que representa la transferencia.
+     */
+    private final Catalogo transferencia;
+
+    /**
+     * Catálogo correspondiente al estado pendiente.
+     */
+    private final Catalogo pendiente;
+
+    /**
+     * Catálogo que representa la monoTransaccion.
+     */
+    private final Catalogo monoTrx;
+
+    /**
+     * Catálogo correspondiente al estado eliminado.
+     */
+    private final Catalogo eliminado;
+
+    /**
+     * Solicitud de transacción no existe.
+     */
+    private static final String NO_SE_ENCONTRO_SOLICITUD_DE_TRANSACCION;
+
+    static {
+        NO_SE_ENCONTRO_SOLICITUD_DE_TRANSACCION = "No se encontró la solicitud de transacción.";
+    }
+
+    /**
+     * Constructor de la clase {@code Transaccion005BZ}.
+     * Inicializa los atributos utilizando un objeto
+     * {@code Transaccion005BzDTO}.
+     *
+     * @param dto el objeto de transferencia de datos que contiene las
+     *            dependencias y catálogos necesarios para la ejecución de
+     *            la transacción.
+     */
+    public Transaccion005BZ(final Transaccion005BzDTO dto) {
+
+        this.transaccionSolicitudRepository = dto
+            .getTransaccionSolicitudRepository();
+        this.cuentaRepository = dto.getCuentaRepository();
+        this.transaccionRepository = dto.getTransaccionRepository();
+        this.transferencia = dto.getTransferencia();
+        this.pendiente = dto.getPendiente();
+        this.monoTrx = dto.getMonoTrx();
+        this.eliminado = dto.getEliminado();
+    }
+
+    /**
+     * Método para ejecutar la solicitud de transacción.
+     *
+     * @param rqsv034 datos de ejecución.
+     * @return {@link ResponseEntity} con un objeto {@link RSB023} que contiene
+     *         información para ejecutar la solicitud de transacción.
+     */
+    public ResponseEntity<RSB023> ejecutarTransaccionSolicitud(
+        final RQSV034 rqsv034) {
 
         RSB023 rsb023 = rqsv034.getRsb023();
         UUID clave = rsb023.getDato();
@@ -75,9 +126,10 @@ public class Transaccion005BZ {
         dto.setCuentaRepository(cuentaRepository);
         dto.setPendiente(pendiente);
         dto.setTransaccionRepository(transaccionRepository);
-        dto.setTransferencia(transferencia);;
-        
-        ResponseEntity<RSB023> result = new Transaccion001BZ(dto).crear(rqsv030);
+        dto.setTransferencia(transferencia);
+
+        ResponseEntity<RSB023> result;
+        result = new Transaccion001BZ(dto).crear(rqsv030);
         if (trxSolicitud.getTipo().equals(monoTrx)) {
             if (result.getStatusCodeValue() == HttpStatus.OK.value()) {
                 trxSolicitud.setEstatus(eliminado);

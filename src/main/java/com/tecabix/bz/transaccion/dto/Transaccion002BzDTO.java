@@ -5,38 +5,82 @@ import com.tecabix.db.repository.PersonaFisicaRepository;
 import com.tecabix.db.repository.TransaccionRepository;
 
 /**
-*
-* @author Ramirez Urrutia Angel Abinadi
-*/
+ *
+ * @author Ramirez Urrutia Angel Abinadi
+ */
 public class Transaccion002BzDTO {
 
-	private TransaccionRepository transaccionRepository;
-	
-	private PersonaFisicaRepository personaFisicaRepository;
-	
-	private Catalogo activo;
+    /**
+     * Repositorio para acceder a la entidad Transaccion.
+     */
+    private TransaccionRepository transaccionRepository;
 
-	public TransaccionRepository getTransaccionRepository() {
-		return transaccionRepository;
-	}
+    /**
+     * Repositorio para acceder a la entidad PersonaFisica.
+     */
+    private PersonaFisicaRepository personaFisicaRepository;
 
-	public void setTransaccionRepository(TransaccionRepository transaccionRepository) {
-		this.transaccionRepository = transaccionRepository;
-	}
+    /**
+     * Estado "activo" obtenido desde el catálogo.
+     */
+    private Catalogo activo;
 
-	public PersonaFisicaRepository getPersonaFisicaRepository() {
-		return personaFisicaRepository;
-	}
+    /**
+     * Obtiene el repositorio de transacciones.
+     *
+     * @return el repositorio de transacciones.
+     */
+    public TransaccionRepository getTransaccionRepository() {
+        return transaccionRepository;
+    }
 
-	public void setPersonaFisicaRepository(PersonaFisicaRepository personaFisicaRepository) {
-		this.personaFisicaRepository = personaFisicaRepository;
-	}
+    /**
+     * Establece el repositorio de transacciones.
+     *
+     * @param repository el repositorio de transacciones
+     *        a establecer.
+     */
+    public void setTransaccionRepository(
+        final TransaccionRepository repository) {
+        this.transaccionRepository = repository;
+    }
 
-	public Catalogo getActivo() {
-		return activo;
-	}
+    /**
+     * Obtiene el repositorio de personas físicas.
+     *
+     * @return el repositorio de personas físicas.
+     */
+    public PersonaFisicaRepository getPersonaFisicaRepository() {
+        return personaFisicaRepository;
+    }
 
-	public void setActivo(Catalogo activo) {
-		this.activo = activo;
-	}
+    /**
+     * Establece el repositorio de personas físicas.
+     *
+     * @param repository el repositorio de personas físicas
+     *        a establecer.
+     */
+    public void setPersonaFisicaRepository(
+        final PersonaFisicaRepository repository) {
+        this.personaFisicaRepository = repository;
+    }
+
+    /**
+     * Obtiene el catálogo correspondiente al estado activo.
+     *
+     * @return el catálogo activo.
+     */
+    public Catalogo getActivo() {
+        return activo;
+    }
+
+    /**
+     * Establece el catálogo correspondiente al estado activo.
+     *
+     * @param estatus el catálogo activo a establecer.
+     */
+    public void setActivo(final Catalogo estatus) {
+        this.activo = estatus;
+    }
+
 }

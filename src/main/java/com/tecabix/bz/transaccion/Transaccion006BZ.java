@@ -19,23 +19,51 @@ import com.tecabix.res.b.RSB022;
 import com.tecabix.sv.rq.RQSV035;
 
 /**
-*
-* @author Ramirez Urrutia Angel Abinadi
-*/
+ *
+ * @author Ramirez Urrutia Angel Abinadi
+ */
 public class Transaccion006BZ {
 
-	private CuentaRepository cuentaRepository;
-	
-	private TransaccionRepository transaccionRepository;
-	
-	private String NO_SE_ENCONTRO_LA_CUENTA = "No se encontro la cuenta.";
-	
-    public Transaccion006BZ(Transaccion006BzDTO dto) {
-		this.cuentaRepository = dto.getCuentaRepository();
-		this.transaccionRepository = dto.getTransaccionRepository();
-	}
+    /**
+     * Repositorio para acceder a la entidad Cuenta.
+     */
+    private final CuentaRepository cuentaRepository;
 
-	public ResponseEntity<RSB022> buscar(final RQSV035 rqsv035) {
+    /**
+     * Repositorio para acceder a la entidad Transaccion.
+     */
+    private final TransaccionRepository transaccionRepository;
+
+    /**
+     * Cuenta no encontrada.
+     */
+    private static final String NO_SE_ENCONTRO_LA_CUENTA;
+
+    static {
+        NO_SE_ENCONTRO_LA_CUENTA = "No se encontro la cuenta.";
+    }
+
+    /**
+     * Constructor de la clase {@code Transaccion006BZ}.
+     * Inicializa los repositorios necesarios utilizando un objeto
+     * {@code Transaccion006BzDTO}.
+     *
+     * @param dto el objeto de transferencia de datos que contiene las
+     *            dependencias necesarias para la ejecución de la transacción.
+     */
+    public Transaccion006BZ(final Transaccion006BzDTO dto) {
+        this.cuentaRepository = dto.getCuentaRepository();
+        this.transaccionRepository = dto.getTransaccionRepository();
+    }
+
+    /**
+     * Método para buscar las transacciones.
+     *
+     * @param rqsv035 datos de búsqueda.
+     * @return {@link ResponseEntity} con un objeto {@link RSB022} que contiene
+     *         información para buscar transacciones.
+     */
+    public ResponseEntity<RSB022> buscar(final RQSV035 rqsv035) {
 
         RSB022 rsb022 = rqsv035.getRsb022();
         byte elementos = rqsv035.getElementos();
@@ -55,8 +83,9 @@ public class Transaccion006BZ {
         Page<Transaccion> pageTrx;
         UUID clave = cuenta.getClave();
         pageTrx = transaccionRepository.findByCuenta(clave, clave, pageable);
-        pageTrx.stream().filter(x -> x.getOrigen().equals(cuenta))
-                       .forEach(x -> x.setMonto(x.getMonto() * -1));
+        pageTrx.stream()
+            .filter(x -> x.getOrigen().equals(cuenta))
+            .forEach(x -> x.setMonto(x.getMonto() * -1));
         return rsb022.ok(pageTrx);
     }
 }
